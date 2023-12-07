@@ -1,5 +1,7 @@
 # from argostranslate import package
 # package.install_from_path('translate-en_es-1_0.argosmodel')
+# package.install_from_path('translate-es_en-1_0.argosmodel')
+# download packages from https://www.argosopentech.com/argospm/index/
 
 import sys
 from PyQt5.QtWidgets import (
