@@ -1,4 +1,4 @@
-#Introducing Translator – Your Gateway to Seamless Multilingual Communication!
+# Introducing Translator – Your Gateway to Seamless Multilingual Communication!
 
 Unlock the power of language with our cutting-edge offline translator GUI application crafted with the elegance of PyQt5. Translator revolutionizes the way you communicate by harnessing translation models from the prestigious Argos website and the ArgosTranslate Python module. Say goodbye to connectivity constraints – now you can translate effortlessly even when you're offline!
 
