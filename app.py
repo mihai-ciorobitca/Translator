@@ -1,18 +1,20 @@
-# from argostranslate import package
-# package.install_from_path('translate-en_es-1_0.argosmodel')
-# package.install_from_path('translate-es_en-1_0.argosmodel')
-# download packages from https://www.argosopentech.com/argospm/index/
+from argostranslate import package
+#package.install_from_path('translate-en_es-1_0.argosmodel')
+package.install_from_path('translate-es_en-1_0.argosmodel')
+#download packages from https://www.argosopentech.com/argospm/index/
 
 import sys
 from PyQt5.QtWidgets import (
-    QApplication, QWidget, QVBoxLayout, QFormLayout,
+    QApplication, QWidget, QVBoxLayout,
     QPlainTextEdit, QPushButton, QHBoxLayout
 )
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QCursor
 from PyQt5.QtCore import Qt
 
 # Assuming 'functions' module has the required functions
 from package import functions
+
+from_language, to_language = "en", "es"
 
 class TranslatorApp(QWidget):
     def __init__(self):
@@ -20,8 +22,8 @@ class TranslatorApp(QWidget):
         self.init_ui()
 
     def init_ui(self):
-        self.setWindowTitle('Translator')
-        self.setGeometry(0, 0, 1000, 600)
+        self.setWindowTitle('Offline Translator')
+        self.setGeometry(0, 0, 1400, 800)
         self.center_on_screen()
 
         # Set window icon
@@ -29,24 +31,26 @@ class TranslatorApp(QWidget):
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowMaximizeButtonHint)
 
         self.text_input = QPlainTextEdit(self)
-        self.text_input.setPlaceholderText('Text to translate...')
+        self.text_input.setPlaceholderText('English...')
         self.text_input.setMaximumBlockCount(100)  # Set a maximum of 100 characters per line
 
         self.translated_output = QPlainTextEdit(self)
         self.translated_output.setReadOnly(True)
-        self.translated_output.setPlaceholderText('Translated text...')
+        self.translated_output.setPlaceholderText('Spanish...')
 
         self.translate_button = QPushButton('Translate', self)
         self.listen_button = QPushButton('Listen', self)
+        self.switch_button = QPushButton('Switch', self)
 
         layout = QVBoxLayout(self)
 
-        form_layout = QFormLayout()
-        form_layout.addRow(self.text_input)
-        form_layout.addRow(self.translated_output)
+        form_layout = QHBoxLayout()
+        form_layout.addWidget(self.text_input)
+        form_layout.addWidget(self.translated_output)
 
         button_layout = QHBoxLayout()
         button_layout.addWidget(self.translate_button)
+        button_layout.addWidget(self.switch_button)
         button_layout.addWidget(self.listen_button)
 
         layout.addLayout(form_layout)
@@ -54,6 +58,7 @@ class TranslatorApp(QWidget):
 
         self.translate_button.clicked.connect(self.translate_text)
         self.listen_button.clicked.connect(self.speak_text)
+        self.switch_button.clicked.connect(self.switch_language)
 
         # Disable buttons initially
         self.translate_button.setEnabled(False)
@@ -61,6 +66,7 @@ class TranslatorApp(QWidget):
 
         # Connect input validation
         self.text_input.textChanged.connect(self.enable_buttons)
+        self.translated_output.textChanged.connect(self.enable_buttons)
 
         # Apply styles
         self.setStyleSheet('''
@@ -95,17 +101,30 @@ class TranslatorApp(QWidget):
     def enable_buttons(self):
         # Enable buttons only if there is text to translate
         text_to_translate = self.text_input.toPlainText().strip()
+        translated_text = self.translated_output.toPlainText().strip()
         self.translate_button.setEnabled(bool(text_to_translate))
-        self.listen_button.setEnabled(bool(text_to_translate))
+        self.listen_button.setEnabled(bool(translated_text))
 
     def translate_text(self):
         text_to_translate = self.text_input.toPlainText()
-        translated_text = functions.translate_text(text_to_translate)
+        translated_text = functions.translate_text(
+            text_to_translate,
+            from_language,
+            to_language
+        )
         self.translated_output.setPlainText(translated_text)
 
     def speak_text(self):
         text_to_speak = self.translated_output.toPlainText()
         functions.text_to_speech(text_to_speak)
+
+    def switch_language(self):
+        global from_language, to_language
+        from_language, to_language = to_language, from_language
+        text_input_placeholder = self.translated_output.placeholderText()
+        translated_output_placeholder = self.text_input.placeholderText()
+        self.text_input.setPlaceholderText(text_input_placeholder)
+        self.translated_output.setPlaceholderText(translated_output_placeholder)
 
     def center_on_screen(self):
         screen = QApplication.primaryScreen()
