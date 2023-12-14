@@ -1,6 +1,6 @@
-from argostranslate import package
+#from argostranslate import package
 #package.install_from_path('translate-en_es-1_0.argosmodel')
-package.install_from_path('translate-es_en-1_0.argosmodel')
+#package.install_from_path('translate-es_en-1_0.argosmodel')
 #download packages from https://www.argosopentech.com/argospm/index/
 
 import sys
@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import (
     QApplication, QWidget, QVBoxLayout,
     QPlainTextEdit, QPushButton, QHBoxLayout
 )
-from PyQt5.QtGui import QIcon, QCursor
+from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 
 # Assuming 'functions' module has the required functions
