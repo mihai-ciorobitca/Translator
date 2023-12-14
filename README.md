@@ -2,7 +2,7 @@
 Overview
 Unlock the power of language with Translator, an innovative offline GUI application crafted using PyQt5. This cutting-edge tool harnesses translation models from the renowned Argos website and the ArgosTranslate Python module, enabling you to translate effortlessly, even without an internet connection.
 
-![image](https://github.com/mihai-ciorobitca/Translator/assets/146944097/a0a687a9-7404-4e00-8033-73ea499e05a0)
+![image](https://github.com/mihai-ciorobitca/Translator/assets/146944097/0f43729b-765d-4fb0-8d5b-6fb32bd8ea25)
 
 ## Key Features
 Offline Translation: Translator ensures translation capabilities even when you're offline, freeing you from connectivity constraints.
